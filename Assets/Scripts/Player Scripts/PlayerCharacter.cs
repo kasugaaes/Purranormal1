@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using System.Runtime.CompilerServices;
 using System.Collections;
 
-public class PlayerCharacter : MonoBehaviourPun
+public class PlayerCharacter : MonoBehaviourPunCallbacks
 {
     [Header("Attack Objects and Essentials")]
     public GameObject attackHurtBox;
@@ -43,7 +43,7 @@ public class PlayerCharacter : MonoBehaviourPun
             {
                 if (Input.GetKeyDown(KeyCode.Mouse0) && attackTimer >= attackSpeed)
                 {
-                    StartCoroutine(Attack());
+                    photonView.RPC("Attack", RpcTarget.All);
                 }
 
                 UpdateMovement();
@@ -67,7 +67,7 @@ public class PlayerCharacter : MonoBehaviourPun
             Cursor.lockState = CursorLockMode.Locked;
 
             // Optionally, hide the cursor (typical for FPS games)
-            Cursor.visible = false;
+            Cursor.visible = false; 
         }
 
         attackTimer += Time.deltaTime;
@@ -85,6 +85,7 @@ public class PlayerCharacter : MonoBehaviourPun
 
     }
 
+    [PunRPC]
     IEnumerator Attack()
     {
         attackTimer = 0.0f;
