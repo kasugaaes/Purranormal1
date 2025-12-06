@@ -9,6 +9,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [Header("Prefabs")]
     public GameObject playerCat;
+    public GameObject Dummy;
 
     [Header("SpawnPoints")]
     public Transform[] spawnPoint;
@@ -35,6 +36,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.Log("This is the Master Client");
+            Transform spawnLocation;
+            spawnLocation = spawnPoint[4];
+            PhotonNetwork.Instantiate(Dummy.name, spawnLocation.position, spawnLocation.rotation);
         }
         Cursor.lockState = CursorLockMode.None;
 

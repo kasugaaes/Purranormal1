@@ -13,6 +13,9 @@ public class PlayerCharacter : MonoBehaviourPunCallbacks
     public bool canMove;
 
     float speed = 5f;
+    float sprintSpeed = 8f;
+    float sprintMaxTime = 4f;
+    float sprintTime = 0f;
     Vector3 move = Vector3.zero;
     Vector3 velocity = Vector3.zero;
 
@@ -80,7 +83,19 @@ public class PlayerCharacter : MonoBehaviourPunCallbacks
         move.x = Input.GetAxisRaw("Horizontal");
         move.z = Input.GetAxisRaw("Vertical");
         move = Vector3.ClampMagnitude(move, 1f);
-        velocity = transform.TransformVector(move) * speed;
+        if (Input.GetKey(KeyCode.LeftShift) && sprintTime <= sprintMaxTime)
+        {
+            velocity = transform.TransformVector(move) * sprintSpeed;
+            sprintTime += Time.deltaTime;
+        } else
+        {
+            velocity = transform.TransformVector(move) * speed;
+            if(sprintTime >= 0.0f)
+            {
+                sprintTime -= Time.deltaTime;
+            }
+        }
+        ;
         characterController.SimpleMove(velocity);
 
     }
