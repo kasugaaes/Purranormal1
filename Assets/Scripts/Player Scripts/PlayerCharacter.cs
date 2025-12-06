@@ -108,4 +108,20 @@ public class PlayerCharacter : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(0.5f);
         attackHurtBox.SetActive(false);
     }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        photonView.RPC("LoseLife", RpcTarget.All);
+
+    }
+
+
+    [PunRPC]
+    public void LoseLife()
+    {
+        GameObject arenaManager = GameObject.Find("GameManager");
+        ArenaManager arenalife = arenaManager.GetComponent<ArenaManager>();
+        arenalife.teamLife -= 1;
+        arenalife.teamLifeTracker.text = arenalife.teamLife.ToString();
+    }
 }

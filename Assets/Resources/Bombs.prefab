@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5439152329334539777}
   - component: {fileID: 7504497036199673101}
   - component: {fileID: 739670939337128675}
+  - component: {fileID: 7868645632231491987}
   m_Layer: 0
   m_Name: Bombs
   m_TagString: Bomb
@@ -163,3 +164,17 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &7868645632231491987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79339659653993572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a8b6df867c04642b49789b9e5d0405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bomb
+  speed: 10
+  lifeTime: 5

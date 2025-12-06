@@ -41,6 +41,9 @@ MonoBehaviour:
   - RespawnSpaceship
   - Attack
   - Damage
+  - FireBombs
+  - LoseLife
+  - ArenaSpawn
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

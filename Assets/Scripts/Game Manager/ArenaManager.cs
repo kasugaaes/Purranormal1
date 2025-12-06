@@ -2,6 +2,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ArenaManager : MonoBehaviourPunCallbacks
 {
@@ -24,6 +25,10 @@ public class ArenaManager : MonoBehaviourPunCallbacks
     [Header("Player Tracker")]
     public Transform[] playerPositions;
 
+    [Header("TeamLife")]
+    public int teamLife;
+    public Text teamLifeTracker;
+
 
     private void Awake()
     {
@@ -31,7 +36,8 @@ public class ArenaManager : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-
+        teamLife = 9 * (PhotonNetwork.CountOfPlayers);
+        teamLifeTracker.text = teamLife.ToString();
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.Log("This is the Master Client");
@@ -44,7 +50,7 @@ public class ArenaManager : MonoBehaviourPunCallbacks
 
 
         playerID = PhotonNetwork.LocalPlayer.ActorNumber;
-        StartCoroutine(ArenaSpawn());
+        StartCoroutine("ArenaSpawn");
 
     }
 
@@ -55,7 +61,16 @@ public class ArenaManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LoadLevel(mainMenu);
         }
+        if (teamLife <= 0)
+        {
+            LoseCondition();
+        }
+    }
 
+    public void LoseCondition()
+    {
+        Debug.Log("You all lost!");
+        PhotonNetwork.LoadLevel(mainMenu);
     }
 
     public void WinCondition()
@@ -64,6 +79,7 @@ public class ArenaManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel(mainMenu);
     }
 
+    [PunRPC]
     IEnumerator ArenaSpawn()
     {
         Transform spawnLocation;

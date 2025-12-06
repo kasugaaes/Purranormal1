@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class KodamaNetwork : MonoBehaviourPunCallbacks
 {
@@ -9,13 +10,21 @@ public class KodamaNetwork : MonoBehaviourPunCallbacks
     public float enemyMaxHealth;
     public float enemyHealth;
 
+    [Header("Weapon")]
+    public Transform[] bombSpawnPoint;
+    public GameObject bomb;
+    public Transform bulletSpawnPoint;
+    public GameObject bullet;
+
+
+    [Header("Getting the Game Manager")]
     public GameObject arenaManager;
     public ArenaManager arena;
 
 
     [Header("Network Sync")]
-    private Vector3 networkPosition;
-    private Quaternion networkRotation;
+    public Vector3 networkPosition;
+    public Quaternion networkRotation;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -57,6 +66,15 @@ public class KodamaNetwork : MonoBehaviourPunCallbacks
         if (enemyHealth <= 0)
         {
             arena.WinCondition();
+        }
+    }
+
+    [PunRPC]
+    public void FireBombs()
+    {
+        for(int i = 0; i<=3 ; i++)
+        {
+            PhotonNetwork.Instantiate(bomb.name, bombSpawnPoint[i].position, bombSpawnPoint[i].rotation);
         }
     }
 }

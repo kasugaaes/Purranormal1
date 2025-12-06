@@ -34,6 +34,8 @@ public class MainMenuFull : MonoBehaviourPunCallbacks
             //If returned from Lobby or Game, just makes sure to leave room
             PhotonNetwork.LeaveRoom();
         }
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         //First Connects to Photon Servers
         PhotonNetwork.ConnectUsingSettings();
         offlineButton.SetActive(true);
