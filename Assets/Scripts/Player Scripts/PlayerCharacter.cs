@@ -83,7 +83,7 @@ public class PlayerCharacter : MonoBehaviourPunCallbacks
         move.x = Input.GetAxisRaw("Horizontal");
         move.z = Input.GetAxisRaw("Vertical");
         move = Vector3.ClampMagnitude(move, 1f);
-        if (Input.GetKey(KeyCode.LeftShift) && sprintTime <= sprintMaxTime)
+        if (Input.GetKey (KeyCode.LeftShift) && sprintTime <= sprintMaxTime)
         {
             velocity = transform.TransformVector(move) * sprintSpeed;
             sprintTime += Time.deltaTime;

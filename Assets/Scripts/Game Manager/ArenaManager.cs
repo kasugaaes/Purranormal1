@@ -10,12 +10,19 @@ public class ArenaManager : MonoBehaviourPunCallbacks
 
     [Header("Prefabs")]
     public GameObject playerCat;
+    public GameObject kodamaprefab;
 
     [Header("SpawnPoints")]
     public Transform[] spawnPoint;
 
     [Header("Level Loadings")]
     public string mainMenu;
+
+    [Header("Enemy Waypoints")]
+    public Transform[] wayPoints;
+
+    [Header("Player Tracker")]
+    public Transform[] playerPositions;
 
 
     private void Awake()
@@ -28,6 +35,7 @@ public class ArenaManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.Log("This is the Master Client");
+
         }
         Cursor.lockState = CursorLockMode.None;
 
@@ -37,6 +45,7 @@ public class ArenaManager : MonoBehaviourPunCallbacks
 
         playerID = PhotonNetwork.LocalPlayer.ActorNumber;
         StartCoroutine(ArenaSpawn());
+
     }
 
     // Update is called once per frame
@@ -49,9 +58,22 @@ public class ArenaManager : MonoBehaviourPunCallbacks
 
     }
 
+    public void WinCondition()
+    {
+        Debug.Log("You all won!");
+        PhotonNetwork.LoadLevel(mainMenu);
+    }
+
     IEnumerator ArenaSpawn()
     {
+        Transform spawnLocation;
+
+        spawnLocation = spawnPoint[5];
+
         yield return new WaitForSeconds(0.2f); //delay spawn by a few frames
+
+        PhotonNetwork.Instantiate(kodamaprefab.name, spawnLocation.position, spawnLocation.rotation);
+
         SpawnPlayer();
     }
 
@@ -60,11 +82,7 @@ public class ArenaManager : MonoBehaviourPunCallbacks
         Transform spawnLocation;
 
         // Prevent double-spawning if the player already exists
-        /*if (PhotonNetwork.LocalPlayer.TagObject != null)
-        {
-            Debug.Log("Player already spawned, skipping.");
-            return;
-        }*/
+        
 
         //for some reason switch case wasnt working????
 
@@ -72,6 +90,7 @@ public class ArenaManager : MonoBehaviourPunCallbacks
         {
             spawnLocation = spawnPoint[0];
             Debug.Log("Spawning Player " + playerID + " at " + spawnLocation.name);
+
         }
         else if (playerID == 2)
         {
